@@ -47,7 +47,6 @@ class OrderDaoImplTest {
     @Test
     void addOrder_toEmptyFile_addsToMemory() throws Exception {
         dao.addOrder(orderFile, makeOrder(1, "Ada Lovelace"));
-
         List<Order> orders = dao.getAllOrders(orderFile);
         assertEquals(1, orders.size());
         assertEquals("Ada Lovelace", orders.get(0).getCustomerName());

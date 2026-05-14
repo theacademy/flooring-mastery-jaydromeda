@@ -17,9 +17,9 @@ public class App {
 
     public static void main(String[] args) {
         //DAOs
-        OrderDao orderDao     = new OrderDaoImpl();
+        OrderDao orderDao = new OrderDaoImpl();
         ProductDao productDao = new ProductDaoImpl();
-        TaxesDao taxesDao     = new TaxesDaoImpl();
+        TaxesDao taxesDao = new TaxesDaoImpl();
 
         //Service
         //Service needs daos as parameters
@@ -27,8 +27,8 @@ public class App {
 
         //UI
         //UI needs view as parameter
-        UserIO io          = new UserIOConsoleImpl();
-        FlooringView view  = new FlooringView(io);
+        UserIO io = new UserIOConsoleImpl();
+        FlooringView view = new FlooringView(io);
 
         //Controller
         //Controller needs the view and the service as parameters
