@@ -52,11 +52,9 @@ public class OrderDaoStubImpl implements OrderDao {
 
     @Override
     public void flushToDisk(File file) {
-        // no-op in tests
     }
 
     @Override
     public void flushAllToDisk(File ordersDir) {
-        // no-op in tests
     }
 }

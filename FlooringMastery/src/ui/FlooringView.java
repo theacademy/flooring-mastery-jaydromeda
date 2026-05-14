@@ -95,7 +95,7 @@ public class FlooringView {
 
     public LocalDate getOrderDate() {
         while (true) {
-            String input = io.readString("Please enter the order date (MM/DD/YYYY or MMDDYYYY):").trim();
+            String input = io.readString("Please enter the order date (MMDDYYYY):").trim();
             try {
                     return LocalDate.parse(input, DATE_FORMAT);
             } catch (DateTimeParseException e) {

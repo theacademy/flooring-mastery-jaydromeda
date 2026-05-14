@@ -20,16 +20,11 @@ public class OrderDaoImpl implements OrderDao {
             DateTimeFormatter.ofPattern("MMddyyyy");
 
     /**
-     * Master in-memory store.
-     * Outer key: order date parsed from the filename.
-     * Inner key: order number.
-     * A date entry is only added to this map after its file has been loaded.
+     Master in-memory store.
+     Outer key: order date parsed from the filename.
+     Inner key: order number.
      */
     private final Map<LocalDate, Map<Integer, Order>> ordersByDate = new LinkedHashMap<>();
-
-    // -------------------------------------------------------------------------
-    // Public interface methods
-    // -------------------------------------------------------------------------
 
     @Override
     public List<Order> getAllOrders(File file) throws Exception {
@@ -156,7 +151,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     /**
-      Column order (matches spec and Order.toString()):
+     Should match toString() from Order class
         0  OrderNumber
         1  CustomerName
         2  State

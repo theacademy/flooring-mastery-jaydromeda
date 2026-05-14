@@ -51,18 +51,16 @@ public class FlooringServiceImpl implements FlooringService {
     @Override
     public List<Order> getOrders(LocalDate date) throws FlooringServiceException {
         File file = getOrderFile(date);
-        if (!file.exists()) {
-            throw new FlooringServiceException(
-                    "No orders found for " + date + ". The file does not exist.");
-        }
         try {
-            List<Order> orders = new ArrayList<>();
-            orders = orderDao.getAllOrders(file);
+            // Ask the DAO first — it may have orders in memory even if no file exists on disk yet
+            List<Order> orders = orderDao.getAllOrders(file);
             if (orders.isEmpty()) {
                 throw new FlooringServiceException("No orders found for " + date + ".");
             }
             return orders;
-        }  catch (Exception e) {
+        } catch (FlooringServiceException e) {
+            throw e;
+        } catch (Exception e) {
             throw new FlooringServiceException(
                     "Could not read orders for " + date + ": " + e.getMessage(), e);
         }
@@ -254,10 +252,8 @@ public class FlooringServiceImpl implements FlooringService {
 
     private int getNextOrderNumber(LocalDate date) throws FlooringServiceException {
         File file = getOrderFile(date);
-        if (!file.exists()) {
-            return 1;
-        }
         try {
+            // orElse(0) + 1 = 1 when no orders exist yet, for both empty memory and missing file
             List<Order> orders = orderDao.getAllOrders(file);
             return orders.stream()
                     .mapToInt(Order::getOrderNumber)
@@ -270,10 +266,10 @@ public class FlooringServiceImpl implements FlooringService {
     }
 
 
-     // MaterialCost = Area * CostPerSquareFoot
-     //  LaborCost    = Area * LaborCostPerSquareFoot
-     //  Tax          = (MaterialCost + LaborCost) * (TaxRate / 100)
-     //  Total        = MaterialCost + LaborCost + Tax
+    // MaterialCost = Area * CostPerSquareFoot
+    //  LaborCost    = Area * LaborCostPerSquareFoot
+    //  Tax          = (MaterialCost + LaborCost) * (TaxRate / 100)
+    //  Total        = MaterialCost + LaborCost + Tax
 
     private void calculateCosts(Order order) {
         BigDecimal area     = order.getArea();
